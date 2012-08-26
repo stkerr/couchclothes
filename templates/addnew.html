@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+{{&header}}
+
+</head>
+
+<body>
+	{{&navbar}}
+
+    <div class="container">
+
+      <ul class="nav nav-pills">
+        
+        <form class="form-horizontal well" method="POST" action="addnew.php" enctype="multipart/form-data">
+          <fieldset>
+            <legend>Add a New Clothing Item</legend>
+            <div class="control-group">
+              <label class="control-label" for="type">Item Type</label>
+              <div class="control-group">
+                <div class="controls">
+                  <select name="type" id="type">
+                      <option></option>
+                    <optgroup label="Accessories">
+                      <option value="watch">Watch</option>
+                    </optgroup>
+                    <optgroup label="Shirts">
+                      <option value="shirt_polo">Polo Shirt</option>
+                      <option value="shirt_button">Button Down Shirt</option>
+                      <option value="shirt_tee">Tee Shirt</option>
+                      <option value="shirt_other">Shirt - Other</option>
+                    </optgroup>
+                    <optgroup label="Pants">
+                      <option value="pants_jean">Jeans</option>
+                      <option value="pants_chinos">Chinos</option>
+                      <option value="pants_corduroy">Corduroy</option>
+                      <option value="pants_other">Pants - Other</option>
+                    </optgroup>
+                    <optgroup label="Shoes">
+                      <option value="shoes">Shoes</option>
+                    </optgroup>
+                  </select>
+                </div>
+              </div>
+
+              <label class="control-label" for="brand">Brand</label>
+              <div class="control-group">
+                <div class="controls">
+                  <input class="input" type="text" name="brand" id="brand"/>
+                </div>
+              </div>
+
+              <label class="control-label" for="fit">Fit / Cut</label>
+              <div class="control-group">
+                <div class="controls">
+                  <input class="input" type="text" name="fit" id="fit" />
+                </div>
+              </div>
+
+              <label class="control-label" for="color">Color</label>
+              <div class="control-group">
+                <div class="controls">
+                  <input class="input" type="text" name="color" id="color" />
+                </div>
+              </div>
+
+              <label class="control-label" for="link">Webpage</label>
+              <div class="control-group">
+                <div class="controls">
+                  <input class="input" type="text" name="link" id="link"/>
+                </div>
+              </div>
+
+              <label class="control-label" for="picture[]">Got a Picture?</label>
+              <div class="control-group">
+                <div class="controls">
+                  <input type="file" name="picture" id="picture" accept="image/*" />
+                </div>
+              </div>
+
+              <label class="control-label" for="link">Any other thoughts?</label>
+              <div class="control-group">
+                <div class="controls">
+                  <textarea class="input" rows="3" name="notes" id="notes"></textarea>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <div class="controls">
+                  <input type="submit" class="btn" />
+                </div>
+              </div>
+
+
+              <input type="hidden" name="formsubmitted" value="yes" />
+            </div>
+          </fieldset>
+
+          
+
+        </form>
+          
+      </ul>
+
+    </div> <!-- /container -->
+
+    {{&scripts}}
+
+</body>
+
+</html>
