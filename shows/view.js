@@ -1,13 +1,13 @@
 function(doc, req) {
 	// !json templates.mustache
-	// !json templates.index
+	// !json templates.view
 	// !json templates.navbar
 	// !json templates.scripts
 	// !json templates.header
 	// !code templates/mustache.js
-	
+
 	var navbar_contents = {
-		"index": "active"
+		"view": "active"
 	};
 	navbar = Mustache.render(templates.navbar, navbar_contents);
 
@@ -17,5 +17,5 @@ function(doc, req) {
 		"scripts": templates.scripts
 		  };
 
-  	return Mustache.render(templates.index, view);
+  	return Mustache.render(templates.view, view);
 }

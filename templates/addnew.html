@@ -5,6 +5,102 @@
 
 {{&header}}
 
+{{&scripts}}
+
+<script type="text/javascript">
+
+window.onload = function() 
+{
+    var app = function() 
+    {
+        var baseUrl = 'http://localhost:5984/couchclothes/';
+        var fileInput = document.forms['submitform'].elements['file'];
+
+        var uploadFile = function(document, file) 
+        {
+            var name = encodeURIComponent(file.name),
+            type = file.type,
+            fileReader = new FileReader(),
+            getRequest = new XMLHttpRequest(),
+            putRequest = new XMLHttpRequest();
+
+            getRequest.open('GET',  baseUrl + encodeURIComponent(document),
+                true);
+            getRequest.send();
+            getRequest.onreadystatechange = function(response) 
+            {
+                if (getRequest.readyState == 4 && getRequest.status == 200) 
+                {
+                    var doc = JSON.parse(getRequest.responseText);
+                    putRequest.open('PUT', baseUrl +
+                        encodeURIComponent(document) + '/' +
+                        name + '?rev=' + doc._rev, true);
+                    putRequest.setRequestHeader('Content-Type', type);
+                    fileReader.readAsArrayBuffer(file);
+                    fileReader.onload = function (readerEvent) 
+                    {
+                        putRequest.send(readerEvent.target.result);
+                    };
+                    putRequest.onreadystatechange = function(response) 
+                    {
+                        if (putRequest.readyState == 4) 
+                        {
+                            console.log(putRequest);
+                        }
+                    };
+                }
+            };
+        };
+
+        document.forms['submitform'].onsubmit = function() 
+        {
+          
+
+          $.couch.db("couchclothes").saveDoc
+          (
+            {
+              type:   $('#type').val(), 
+              brand:  $('#brand').val(), 
+              fit:    $('#fit').val(),
+              color:  $('#color').val(),
+              link:   $('#link').val(),
+              notes:  $('#notes').val()
+            },  
+            {
+              success: function(data) 
+              { 
+                alert("Saved data ok."); 
+                var id = data.id;
+                var rev = data.rev;
+                //alert("/couchclothes/" + id  + "/picture?rev=" + rev);
+
+                $("#rev_field").val(rev);
+                alert($("#rev_field").val());
+                $("#pictureform").attr("action","/couchclothes/" + id  + "/picture?rev=" + rev);
+                alert($("#pictureform").attr("action"));
+                
+                uploadFile(id, fileInput.files[0]);
+
+              }
+            }  
+          );  
+            
+          //uploadFile('foo', fileInput.files[0]);
+          return false;
+        };
+
+    };
+
+    app();
+};
+
+
+function init()
+{
+}
+
+</script>
+
 </head>
 
 <body>
@@ -14,7 +110,7 @@
 
       <ul class="nav nav-pills">
         
-        <form class="form-horizontal well" method="POST" action="addnew.php" enctype="multipart/form-data">
+        <form class="form-horizontal well" id="submitform" name="submitform">
           <fieldset>
             <legend>Add a New Clothing Item</legend>
             <div class="control-group">
@@ -73,13 +169,6 @@
                 </div>
               </div>
 
-              <label class="control-label" for="picture[]">Got a Picture?</label>
-              <div class="control-group">
-                <div class="controls">
-                  <input type="file" name="picture" id="picture" accept="image/*" />
-                </div>
-              </div>
-
               <label class="control-label" for="link">Any other thoughts?</label>
               <div class="control-group">
                 <div class="controls">
@@ -87,14 +176,19 @@
                 </div>
               </div>
 
+              <label class="control-label" for="picture[]">Got a Picture?</label>
               <div class="control-group">
                 <div class="controls">
-                  <input type="submit" class="btn" />
+                  <input type="file" name="file" id="file" accept="image/*" multiple/>
                 </div>
               </div>
 
+              <div class="control-group">
+                <div class="controls">
+                  <input type="submit" class="btn"/>
+                </div>
+              </div>
 
-              <input type="hidden" name="formsubmitted" value="yes" />
             </div>
           </fieldset>
 
@@ -106,7 +200,7 @@
 
     </div> <!-- /container -->
 
-    {{&scripts}}
+    
 
 </body>
 
