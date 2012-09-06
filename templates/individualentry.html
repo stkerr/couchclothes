@@ -1,0 +1,84 @@
+<!--
+	type,
+	color,
+	brand,
+	link,
+	notes,
+	fit,
+	documentname,
+	attachmentname
+-->
+<div id="row-fluid" >
+	<div class="span4 well">
+		<div class="span3">
+
+			{{#type}}
+				<div>
+					<p>
+						<strong>Type</strong>
+						{{&type}}
+					</p>
+				</div>
+			{{/type}}
+
+			{{#color}}
+				<div>
+					<p>
+						<strong>Color</strong>
+						{{&color}}
+					</p>
+				</div>
+			{{/color}}
+
+			{{#brand}}
+				<div>
+					<p>
+						<strong>Brand</strong>
+						{{&brand}}
+					</p>
+				</div>
+			{{/brand}}
+
+			{{#link}}
+				<div>
+					<p>
+						<strong>Link</strong>
+						<a href={{&link}}>Link</a>
+					</p>
+				</div>
+			{{/link}}
+
+			{{#notes}}
+				<div>
+					<p>
+						<strong>Notes</strong>
+						{{&notes}}
+					</p>
+				</div>
+			{{/notes}}
+
+			{{#fit}}
+				<div>
+					<p>
+						<strong>Fit</strong>
+						{{&fit}}
+					</p>
+				</div>
+			{{/fit}}
+
+	    </div>
+
+		{{#documentname}}
+		{{#attachmentname}}
+	    <div class="span9">
+    		<center>
+				<a href="http://localhost:5984/couchclothes/{{documentname}}/{{attachmentname}}">
+					<img class="imgList" src="http://localhost:5984/couchclothes/{{documentname}}/{{attachmentname}}" />
+				</a>
+			</center>
+	    </div>
+	    {{/attachmentname}}
+	    {{/documentname}}
+		
+	</div>
+</div>

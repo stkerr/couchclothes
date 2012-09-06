@@ -52,9 +52,13 @@ window.onload = function()
             };
         };
 
+        var d = new Date();
+        var n = d.getTime();
+
         document.forms['submitform'].onsubmit = function() 
         {
           
+          data = {};
 
           $.couch.db("couchclothes").saveDoc
           (
@@ -64,20 +68,21 @@ window.onload = function()
               fit:    $('#fit').val(),
               color:  $('#color').val(),
               link:   $('#link').val(),
-              notes:  $('#notes').val()
+              notes:  $('#notes').val(),
+              created_at: new Date().getTime()*-1
             },  
             {
               success: function(data) 
               { 
-                alert("Saved data ok."); 
+                //alert("Saved data ok."); 
                 var id = data.id;
                 var rev = data.rev;
                 //alert("/couchclothes/" + id  + "/picture?rev=" + rev);
 
                 $("#rev_field").val(rev);
-                alert($("#rev_field").val());
+                //alert($("#rev_field").val());
                 $("#pictureform").attr("action","/couchclothes/" + id  + "/picture?rev=" + rev);
-                alert($("#pictureform").attr("action"));
+                //alert($("#pictureform").attr("action"));
                 
                 uploadFile(id, fileInput.files[0]);
 
@@ -86,7 +91,7 @@ window.onload = function()
           );  
             
           //uploadFile('foo', fileInput.files[0]);
-          return false;
+          return true;
         };
 
     };
