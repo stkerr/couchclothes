@@ -10,12 +10,19 @@ function(head, req)
 	provides('html', function() {
 	
 		var count = 0;
-		results = '<div class="container-fluid"><div class="row-fluid"><div class="span12">';
+		results = '<div class="container-fluid">';
+		
+		
 	
 		while(row = getRow())
 		{
 			if(row == null || row.value == null)
 				continue;
+			
+			if(count % 3 == 0)
+			{
+				results += '<div class="row-fluid"><div class="span12">';
+			}
 			
 			var data = {
 					'type' : row.value.type,
@@ -24,16 +31,23 @@ function(head, req)
 					'link' : row.value.link,
 					'notes' : row.value.notes,
 					'fit' : row.value.fit,
-					'documentname' : row.value._id,
+					'documentname' : row.value.documentname,
 					'attachmentname' : row.value.attachmentname
 			};
 			
 			
 			results += Mustache.render(templates.individualentry, data);
+			
+			if(count % 4 == 0 && count != 0)
+				results += '</div></div>';
+				
+			
 			count++;
 		}
 		 
-		results += '</div></div></div>';
+		results += '</div></div>';
+			
+		results += '</div>';
 	
 		var navbar_contents = {
 				"view": "active"

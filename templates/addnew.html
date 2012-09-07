@@ -15,6 +15,12 @@ function submitfunc()
   
   data = {};
 
+  if( $('#link').val().search('http://') == -1)
+  {
+  	var temp = $('#link').val();
+  	$('#link').val('http://' + temp);
+  }
+ 
   $.couch.db("couchclothes").saveDoc
   (
     {
@@ -24,15 +30,16 @@ function submitfunc()
       color:  $('#color').val(),
       link:   $('#link').val(),
       notes:  $('#notes').val(),
-      created_at: new Date().getTime()*-1
+      created_at: new Date().getTime()*-1,
+      attachmentname: encodeURIComponent(fileInput.files[0].name),
     },  
     {
       success: function(data) 
       { 
-        alert("Saved data ok."); 
+        //alert("Saved data ok."); 
         var id = data.id;
         var rev = data.rev;
-        alert("/couchclothes/" + id  + "/picture?rev=" + rev);
+        //alert("/couchclothes/" + id  + "/picture?rev=" + rev);
 
         $("#rev_field").val(rev);
         //alert($("#rev_field").val());
@@ -56,10 +63,12 @@ function submitfunc()
 
 function uploadFile(document, file) 
 {
-	
+	if(file == null)
+		return;
+		
 	var baseUrl = 'http://127.0.0.1:5984/couchclothes/';
 	
-	alert('uploading');
+	//alert('uploading');
     var name = encodeURIComponent(file.name),
     type = file.type,
     fileReader = new FileReader(),
@@ -74,7 +83,7 @@ function uploadFile(document, file)
     	
         if (getRequest.readyState == 4 && getRequest.status == 200) 
         {
-        	alert('here2');
+        	//alert('here2');
             var doc = JSON.parse(getRequest.responseText);
             console.log(getRequest.responseText);
             putRequest.open('PUT', baseUrl +
@@ -96,72 +105,6 @@ function uploadFile(document, file)
         }
     };
 };
-	        
-window.onload = function() 
-{
-    var app = function() 
-    {
-    
-        
-        
-
-        var uploadFile = function(document, file) 
-        {
-        	alert('uploading');
-            var name = encodeURIComponent(file.name),
-            type = file.type,
-            fileReader = new FileReader(),
-            getRequest = new XMLHttpRequest(),
-            putRequest = new XMLHttpRequest();
-
-            getRequest.open('GET',  baseUrl + encodeURIComponent(document),
-                true);
-            getRequest.send();
-            getRequest.onreadystatechange = function(response) 
-            {
-            	
-                if (getRequest.readyState == 4 && getRequest.status == 200) 
-                {
-                	alert('here2');
-                    var doc = JSON.parse(getRequest.responseText);
-                    console.log(getRequest.responseText);
-                    putRequest.open('PUT', baseUrl +
-                        encodeURIComponent(document) + '/' +
-                        name + '?rev=' + doc._rev, true);
-                    putRequest.setRequestHeader('Content-Type', type);
-                    fileReader.readAsArrayBuffer(file);
-                    fileReader.onload = function (readerEvent) 
-                    {
-                        putRequest.send(readerEvent.target.result);
-                    };
-                    putRequest.onreadystatechange = function(response) 
-                    {
-                        if (putRequest.readyState == 4) 
-                        {
-                            console.log(putRequest);
-                        }
-                    };
-                }
-            };
-        };
-
-        var d = new Date();
-        var n = d.getTime();
-
-        //document.forms['submitform'].onsubmit = function()
-        
-
-    };
-    
-	
-    app();
-};
-
-
-function init()
-{
-}
-
 </script>
 
 </head>

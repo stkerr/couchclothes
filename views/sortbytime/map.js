@@ -44,15 +44,12 @@ function(doc)
 		finaldoc = jsonConcat( finaldoc, { 'fit': doc.fit } ); 
 	}
 	
-	if(doc.documentname)
-	{ 
-		finaldoc = jsonConcat( finaldoc, { 'documentname': doc.documentname } ); 
-	}
-	
 	if(doc.attachmentname)
 	{ 
 		finaldoc = jsonConcat( finaldoc, { 'attachmentname': doc.attachmentname } ); 
 	}
+	
+	finaldoc = jsonConcat( finaldoc, { 'documentname': doc._id} ); 
 	
 	emit(doc._id, finaldoc);
 };

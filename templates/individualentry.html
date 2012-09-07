@@ -1,21 +1,10 @@
-<!--
-	type,
-	color,
-	brand,
-	link,
-	notes,
-	fit,
-	documentname,
-	attachmentname
--->
-<div id="row-fluid" >
-	<div class="span4 well">
-		<div class="span3">
-
+<div class="span4 well">
+	<div class="row-fluid">
+		<div class="span4">
 			{{#type}}
 				<div>
+					<p><strong>Type</strong></p>
 					<p>
-						<strong>Type</strong>
 						{{&type}}
 					</p>
 				</div>
@@ -23,8 +12,8 @@
 
 			{{#color}}
 				<div>
+					<p><strong>Color</strong></p>
 					<p>
-						<strong>Color</strong>
 						{{&color}}
 					</p>
 				</div>
@@ -32,8 +21,8 @@
 
 			{{#brand}}
 				<div>
-					<p>
-						<strong>Brand</strong>
+					<p><strong>Brand</strong></p>
+					<p>	
 						{{&brand}}
 					</p>
 				</div>
@@ -41,8 +30,8 @@
 
 			{{#link}}
 				<div>
+					<p><strong>Link</strong></p>
 					<p>
-						<strong>Link</strong>
 						<a href={{&link}}>Link</a>
 					</p>
 				</div>
@@ -50,8 +39,8 @@
 
 			{{#notes}}
 				<div>
+					<p><strong>Notes</strong></p>
 					<p>
-						<strong>Notes</strong>
 						{{&notes}}
 					</p>
 				</div>
@@ -59,26 +48,36 @@
 
 			{{#fit}}
 				<div>
+					<p><strong>Fit</strong></p>
 					<p>
-						<strong>Fit</strong>
 						{{&fit}}
 					</p>
 				</div>
 			{{/fit}}
 
-	    </div>
+		</div>
 
-		{{#documentname}}
-		{{#attachmentname}}
-	    <div class="span9">
-    		<center>
-				<a href="http://localhost:5984/couchclothes/{{documentname}}/{{attachmentname}}">
-					<img class="imgList" src="http://localhost:5984/couchclothes/{{documentname}}/{{attachmentname}}" />
-				</a>
-			</center>
-	    </div>
-	    {{/attachmentname}}
-	    {{/documentname}}
-		
-	</div>
+	    <div class="span8">
+	    	<center>
+		    	{{#documentname}}
+				{{#attachmentname}}
+	    		
+					<a href="http://localhost:5984/couchclothes/{{documentname}}/{{attachmentname}}">
+						<img class="imgList" width='100%' src="http://localhost:5984/couchclothes/{{documentname}}/{{attachmentname}}" />
+					</a>
+				
+				{{/attachmentname}}
+		    	{{/documentname}}
+				<div class="row-fluid">
+					<div class="span9">
+					</div>
+					<div class="span3">
+						<form>
+							<input type="button" value="Delete" style="margin-top:2em" />
+						</form>
+					</div>
+				</div>
+			</center>	
+		</div>
+    </div>
 </div>
