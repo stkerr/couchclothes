@@ -7,12 +7,56 @@
 
 {{&scripts}}
 
+<style type="text/css">
+.successbox
+{
+  border: 1px solid;
+  margin: 10px 0px;
+  padding:15px 10px 15px 50px;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+}
+
+.successbox {
+  color: #4F8A10;
+  background-color: #DFF2BF;
+  //background-image:url('success.png');
+}
+</style>
+
 <script type="text/javascript">
+
+$(document).ready(function() 
+{
+	$('.successbox').hide();//Hide the div
+});
+
+function clear_form_elements(ele) {
+
+    $(ele).find(':input').each(function() {
+        switch(this.type) {
+            case 'password':
+            case 'select-multiple':
+            case 'select-one':
+            case 'text':
+            case 'textarea':
+                $(this).val('');
+                break;
+            case 'checkbox':
+            case 'radio':
+                this.checked = false;
+        }
+    });
+
+}
 
 function submitfunc() 
 {
   var fileInput = document.forms['submitform'].elements['file'];
-  
+  var filename = "";
+  if(fileInput.files[0] != null && fileInput.files[0].name != null && fileInput.files[0].name != "")
+    filename = fileInput.files[0].name;
+
   data = {};
 
   if( $('#link').val().search('http://') == -1)
@@ -31,7 +75,7 @@ function submitfunc()
       link:   $('#link').val(),
       notes:  $('#notes').val(),
       created_at: new Date().getTime()*-1,
-      attachmentname: encodeURIComponent(fileInput.files[0].name),
+      attachmentname: encodeURIComponent(filename),
     },  
     {
       success: function(data) 
@@ -43,22 +87,24 @@ function submitfunc()
 
         $("#rev_field").val(rev);
         //alert($("#rev_field").val());
-        $("#pictureform").attr("action","/couchclothes/" + id  + "/picture?rev=" + rev);
-        //alert($("#pictureform").attr("action"));
         
-        uploadFile(id, fileInput.files[0]);
+        if(filename != "")
+          uploadFile(id, fileInput.files[0]);
 
+        clear_form_elements('#submitform');
+
+    	  $(".successbox").fadeIn(1000);
       },
       error: function(jqXHR, textStatus, errorThrown)
       {
-      	alert('error!');
-      	alert(jqXHR + " " + errorThrown + " " + errorThrown);
+        	alert('error!');
+        	alert(jqXHR + " " + errorThrown + " " + errorThrown);
       }
-    }  
+        }  
   );  
     
   //uploadFile('foo', fileInput.files[0]);
-  return true;
+  return false;
 };
 
 function uploadFile(document, file) 
@@ -66,7 +112,7 @@ function uploadFile(document, file)
 	if(file == null)
 		return;
 		
-	var baseUrl = 'http://127.0.0.1:5984/couchclothes/';
+	var baseUrl = '/couchclothes/';
 	
 	//alert('uploading');
     var name = encodeURIComponent(file.name),
@@ -201,7 +247,9 @@ function uploadFile(document, file)
           
 
         </form>
-          
+ 
+ 	      <div class="successbox">Item uploaded and saved successfully!</div>
+
       </ul>
 
     </div> <!-- /container -->

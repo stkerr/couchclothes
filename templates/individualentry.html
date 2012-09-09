@@ -57,27 +57,27 @@
 
 		</div>
 
-	    <div class="span8">
-	    	<center>
-		    	{{#documentname}}
-				{{#attachmentname}}
-	    		
-					<a href="http://localhost:5984/couchclothes/{{documentname}}/{{attachmentname}}">
-						<img class="imgList" width='100%' src="http://localhost:5984/couchclothes/{{documentname}}/{{attachmentname}}" />
-					</a>
+		<div class="span8">
+			<center>
+				{{#documentname}}
+					{{#attachmentname}}
 				
-				{{/attachmentname}}
-		    	{{/documentname}}
+						<a href="http://localhost:5984/couchclothes/{{documentname}}/{{attachmentname}}">
+							<img class="imgList" width='100%' src="http://localhost:5984/couchclothes/{{documentname}}/{{attachmentname}}" />
+						</a>
+					
+					{{/attachmentname}}
+				{{/documentname}}
 				<div class="row-fluid">
 					<div class="span9">
 					</div>
 					<div class="span3">
 						<form>
-							<input type="button" value="Delete" style="margin-top:2em" />
+							<input type="button" value="Delete" style="margin-top:2em" onclick="removeEntry('{{documentname}}', '{{documentrevision}}');" />
 						</form>
 					</div>
 				</div>
 			</center>	
 		</div>
-    </div>
+	</div>
 </div>

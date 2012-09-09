@@ -50,6 +50,7 @@ function(doc)
 	}
 	
 	finaldoc = jsonConcat( finaldoc, { 'documentname': doc._id} ); 
+	finaldoc = jsonConcat( finaldoc, { 'documentrevision': doc._rev} ); 
 	
 	emit(doc._id, finaldoc);
 };

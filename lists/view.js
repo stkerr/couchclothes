@@ -6,23 +6,25 @@ function(head, req)
 	// !json templates.navbar
 	// !json templates.scripts
 	// !json templates.header
+	// !json templates.removeentry
 	// !code templates/mustache.js
 	provides('html', function() {
 	
 		var count = 0;
 		results = '<div class="container-fluid">';
 		
-		
-	
 		while(row = getRow())
 		{
-			if(row == null || row.value == null)
-				continue;
-			
 			if(count % 3 == 0)
 			{
+				if(count != 0)
+					results += '</div></div>';
+
 				results += '<div class="row-fluid"><div class="span12">';
 			}
+
+			if(row == null || row.value == null)
+				continue;
 			
 			var data = {
 					'type' : row.value.type,
@@ -32,15 +34,12 @@ function(head, req)
 					'notes' : row.value.notes,
 					'fit' : row.value.fit,
 					'documentname' : row.value.documentname,
+					'documentrevision' : row.value.documentrevision,
 					'attachmentname' : row.value.attachmentname
 			};
 			
 			
 			results += Mustache.render(templates.individualentry, data);
-			
-			if(count % 4 == 0 && count != 0)
-				results += '</div></div>';
-				
 			
 			count++;
 		}
@@ -58,6 +57,7 @@ function(head, req)
 				"navbar": navbar,
 				"header": templates.header,
 				"scripts": templates.scripts,
+				"extrascripts": templates.removeentry,
 				"body": results
 				  };
 		
